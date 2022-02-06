@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   def index
     @room = Room.find(params[:room_id])
+    @messages = @room.messages.includes(:user)
     @message = Message.new
   end
 
@@ -10,6 +11,7 @@ class MessagesController < ApplicationController
     if @message.save
       redirect_to room_messages_path
     else
+      @messages = @room.messages.includes(:user)
       render :index
     end
   end
